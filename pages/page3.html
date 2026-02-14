@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Game</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/page3.css" />
+</head>
+
+<body class="page2">
+  <main class="wrap">
+    <section class="stage stage-wide">
+
+      <header class="page2-header">
+        <h1 class="page2-title">Mini Game</h1>
+        <a class="btn" href="../pages/page2.html">Back</a>
+      </header>
+
+      <div class="game-card" id="gameCard">
+        <p class="game-title" id="questionText">Loading…</p>
+
+        <div class="game-images">
+          <div class="game-img" id="imgA">
+            <div class="img-placeholder">Image A</div>
+          </div>
+
+          <div class="game-img" id="imgB">
+            <div class="img-placeholder">Image B</div>
+          </div>
+        </div>
+
+        <p class="game-status" id="status">Choose wisely 😌</p>
+
+        <div class="game-actions" id="actions">
+          <button class="btn" id="yesBtn" type="button">YES</button>
+          <button class="btn" id="noBtn" type="button">NO</button>
+        </div>
+
+        <p class="round-indicator" id="roundIndicator">Round ? / 3</p>
+      </div>
+
+    </section>
+
+    <!-- Final letter popup (hidden until game ends) -->
+    <section class="final-letter" id="finalLetter" aria-hidden="true">
+      <div class="final-letter-card">
+        <p class="final-letter-small">To my favorite person 💌</p>
+        <h2 class="final-letter-title">Happy Valentine’s Day</h2>
+        <p class="final-letter-body">
+          I knew you would choose me ^^<br>
+          Happy Valentine, babe 💗
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- IMPORTANT: script must be AFTER the HTML -->
+  <script src="../js/page3.js"></script>
+</body>
+</html>

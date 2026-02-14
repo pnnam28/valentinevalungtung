@@ -1,0 +1,840 @@
+:root{
+  --bg: #fbf3ef;
+  --ink: #2c2b2a;
+
+  --accent: #d7a988;
+  --envelope: #f4e9e2;
+  --paperArea: #ffffff;
+  --stroke: rgba(215,169,136,.55);
+
+  --seal: #f0c6c7;
+  --card-shadow: rgba(44,43,42,.16);
+}
+
+
+
+/* ===== Full-screen FX layers ===== */
+.screen-fx{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+
+/* background layer: behind everything */
+.fx-bg{
+  z-index: 0;
+  opacity: 0.55; /* softer */
+  filter: blur(0.2px);
+}
+
+/* foreground layer: above everything */
+.fx-fg{
+  z-index: 9999;
+  opacity: 0.85; /* stronger */
+}
+
+
+
+/* ===== Flying flower particle ===== */
+.flower{
+  position: absolute;
+  top: var(--y);
+  left: -60px;           /* start slightly off-screen */
+  font-size: var(--size);
+  opacity: var(--op);
+  transform: translateX(0) rotate(0deg);
+  animation: flyAcross var(--dur) linear forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes flyAcross{
+  0%{
+    transform: translateX(0) translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10%{ opacity: var(--op); }
+  100%{
+    transform: translateX(calc(100vw + 120px)) translateY(var(--drift)) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+
+
+.stage{
+  width:min(800px, 96vw);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+}
+
+.title{
+  font-size:12px;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+/* Layer above envelope */
+.fx-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:visible;
+  z-index: 999;
+}
+
+
+
+/* Individual heart */
+.heart-fly{
+  position:absolute;
+  top:55%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  opacity: 0;
+  animation: heartFloat 1200ms ease-out forwards;
+}
+
+/* Floating animation */
+@keyframes heartFloat{
+  0%{
+    transform: translate(-50%, 0) scale(.8) rotate(0deg);
+    opacity: 0;
+  }
+  20%{
+    opacity: 1;
+  }
+  100%{
+    transform: translate(var(--x), -240%) scale(1.2) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+.envelopeShell{
+  width:min(640px, 94vw);
+  height:min(340px, 50vw);
+  position:relative;
+  border-radius:28px;
+  filter:drop-shadow(0 24px 60px rgba(0,0,0,.1));
+}
+
+.envelopeBody{
+  position:absolute;
+  inset:0;
+  border-radius:28px;
+  background:var(--envelope);
+  border:1px solid var(--stroke);
+  overflow:hidden;
+}
+
+.paperArea{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:48%;
+  background:var(--paperArea);
+}
+
+.lid{
+  position:absolute;
+  left:0; right:0; top:0;
+  height:52%;
+  background:var(--envelope);
+  border-bottom:1px solid rgba(215,169,136,.2);
+
+  transform-origin: top center;
+  transform: translateY(0) rotateX(0deg);
+  opacity: 1;
+
+  transition:
+    transform 800ms cubic-bezier(.2,.9,.2,1),
+    opacity 500ms ease 200ms;
+
+  z-index:4;
+}
+
+
+.seal{
+  position:absolute;
+  left:50%;
+  bottom:calc(48% - 18px);
+  transform:translateX(-50%);
+  width:56px; height:56px;
+  border-radius:50%;
+  background:var(--seal);
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  z-index:5;
+  transition: opacity .4s ease, transform .4s ease;
+}
+
+.seal svg{
+  width:16px;
+  height:16px;
+}
+
+.envelopeShell.open .seal{
+  opacity: 0;
+  transform: translateX(-50%) scale(.6);
+  pointer-events: none;
+}
+
+
+.stringLine{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:0;
+  height:52%;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+
+.stringLine::before,
+.stringLine::after{
+  content:"";
+  position:absolute;
+  top:44%;
+  width:220px;
+  height:2px;
+  background:rgba(215,169,136,.65);
+}
+
+.stringLine::before{ right:14px; }
+.stringLine::after{ left:14px; }
+
+
+.ring{
+  position:absolute;
+  top:calc(44% - 7px);
+  width:14px; height:14px;
+  border-radius:50%;
+  border:2px solid rgba(215,169,136,.75);
+}
+
+.ring.left{ left:-250px; }
+.ring.right{ right:-250px; }
+
+.letterWrap{
+  position:absolute;
+  inset: 0;              /* same size as envelopeShell */
+  display:flex;
+  align-items:flex-end;  /* keeps letter inside bottom area */
+  justify-content:center;
+  padding: 18px;     
+}
+
+.letterCard{
+  background:#fff;
+  
+  border-radius:22px;
+  border:1px solid rgba(215,169,136,.35);
+  box-shadow:0 18px 50px var(--card-shadow);
+  width: 100%;           /* full width of envelope */
+  height: 100%;          /* full height */
+  border-radius: 28px;   /* match envelope radius */
+  padding: 26px;
+  padding:26px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(36px);
+  transition:all .6s cubic-bezier(.2,.9,.2,1);
+}
+.page{
+  display:none;
+  opacity:0;
+  transition: opacity .25s ease;
+}
+.page.active{
+  display:block;
+  opacity:1;
+}
+
+.letterSmall{
+  font-size:11px;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+
+.letterBig{
+  font-family:Georgia, serif;
+  font-size:42px;
+  margin:10px 0;
+}
+
+.letterBody{
+  font-size:14px;
+  color:rgba(44,43,42,.7);
+}
+
+.envelopeShell.open .lid{
+  transform: translateY(-110%) rotateX(15deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.envelopeShell.open .stringLine{
+  opacity:1;
+}
+
+.envelopeShell.open .letterCard{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.actions{
+  display:flex;
+  gap:14px;
+}
+
+/*==================PAGE 2 Polaroid -=============================*/
+/* =========================
+   Page 2: Polaroids on a string
+========================= */
+
+.page2-header a{
+  text-decoration: none;
+  color: inherit;
+}
+
+.stage-wide{
+  width: min(1200px, 96vw);
+}
+
+/* Header */
+.page2-header{
+  width: 100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 18px;
+}
+
+.page2-title{
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: 34px;
+  color: rgba(44,43,42,.9);
+}
+
+.page2-pill{
+  font-size: 11px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(215,169,136,.30);
+  color: rgba(215,169,136,.95);
+}
+
+
+
+/* Board */
+.polaroid-board{
+  width: 100%;
+  display:flex;
+  flex-direction:column;
+  gap: 26px; /* space between rows */
+}
+
+/* Each row has a string line behind the polaroids */
+.polaroid-row{
+  position: relative;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  padding-top: 24px; /* space for the string + clips */
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 650ms ease, transform 650ms ease;
+
+}
+
+/* The “string” line */
+.polaroid-row::before{
+  content:"";
+  position:absolute;
+  left: 2%;
+  right: 2%;
+  top: 18px;
+  height: 2px;
+  background: rgba(215,169,136,.55);
+  border-radius: 999px;
+  opacity: .85;
+}
+
+/* Polaroid frame */
+.polaroid{
+  position: relative;
+  background: rgba(255,255,255,.70);
+  border-radius: 26px;
+  padding: 18px;
+  box-shadow: 0 18px 50px rgba(44,43,42,.10);
+  border: 1px solid rgba(215,169,136,.22);
+
+  /* little random vibe */
+  transform: rotate(var(--tilt, 0deg));
+}
+
+
+.polaroid-row.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Slight tilts like real polaroids */
+.polaroid-row .polaroid:nth-child(1){ --tilt: -1.2deg; }
+.polaroid-row .polaroid:nth-child(2){ --tilt:  0.8deg; }
+.polaroid-row .polaroid:nth-child(3){ --tilt: -0.6deg; }
+
+/* Clip */
+.clip{
+  position:absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.85);
+  border: 1px solid rgba(215,169,136,.45);
+  box-shadow: 0 6px 12px rgba(44,43,42,.08);
+}
+
+/* Photo placeholder area */
+.photo{
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 22px;
+  overflow:hidden;
+  background: linear-gradient(180deg, rgba(246,190,215,.75), rgba(255,240,190,.70));
+  border: 1px solid rgba(255,255,255,.6);
+}
+
+/* When you add images later, they’ll fill nicely */
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+}
+
+/* Caption */
+.caption{
+  margin: 12px 4px 0;
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: 25px;
+  color: rgba(44,43,42,.70);
+}
+
+/* =========================
+   Mobile: 1 picture at a time (vertical)
+========================= */
+@media (max-width: 768px){
+  .page2-header{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .page2-title{ font-size: 28px; }
+
+  .polaroid-row{
+    grid-template-columns: 1fr; /* 1 at a time */
+    gap: 18px;
+    padding-top: 24px;
+  }
+
+  .polaroid-row::before{
+    left: 6%;
+    right: 6%;
+  }
+}
+
+
+/*==================Button=============================*/
+
+.btn{
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+
+  border-radius: 999px;
+  border: 1px solid rgba(215,169,136,.35);
+
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,.85),
+    rgba(255,255,255,.65)
+  );
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  color: rgba(215,169,136,.95);
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 14px rgba(44,43,42,.08),
+    inset 0 1px 0 rgba(255,255,255,.6);
+
+  transition: 
+    transform .25s ease,
+    box-shadow .25s ease,
+    background .25s ease,
+    border-color .25s ease;
+}
+
+/* Hover effect */
+.btn:hover{
+  transform: translateY(-3px);
+
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,.95),
+    rgba(255,255,255,.8)
+  );
+
+  border-color: rgba(215,169,136,.55);
+
+  box-shadow:
+    0 12px 26px rgba(255,120,150,.15),
+    0 6px 14px rgba(44,43,42,.08);
+}
+
+/* Click press */
+.btn:active{
+  transform: translateY(0);
+  box-shadow:
+    0 4px 10px rgba(44,43,42,.08);
+}
+
+/* Focus (keyboard accessibility) */
+.btn:focus-visible{
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(255,120,150,.25),
+    0 6px 14px rgba(44,43,42,.08);
+}
+
+/* ================================================================
+   Page 2: Counter Hero
+=================================================================== */
+
+
+.counter-hero{
+  width: 100%;
+  min-height: 80vh;          /* front of page */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap: 12px;
+  padding: 28px 10px;
+}
+
+.counter-kicker{
+
+  font-family: "Dancing Script", cursive;
+  font-size: 35px;
+  margin: 0;
+  letter-spacing: .28em;
+  color: rgba(215,169,136,.95);
+}
+
+.counter-time{
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 9vw, 100px);
+  letter-spacing: .06em;
+  color: rgba(44,43,42,.90);
+  background: rgba(255,255,255,.45);
+  border: 1px solid rgba(215,169,136,.25);
+  border-radius: 22px;
+  padding: 18px 22px;
+  box-shadow: 0 18px 50px rgba(44,43,42,.08);
+}
+
+.counter-sub{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  font-size: 20px;
+  color: rgba(44,43,42,.55);
+  margin: 8px 0 18px;
+}
+
+.counter-divider{
+  width: min(520px, 78vw);
+  height: 1px;
+  background: rgba(215,169,136,.35);
+  margin: 18px auto 18px;
+}
+
+.scroll-hint{
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(44,43,42,.55);
+  opacity: .9;
+}
+
+.love-time{
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(54px, 7vw, 110px); /* BIG, romantic */
+  letter-spacing: .06em;
+  padding: 18px 26px;
+  border-radius: 26px;
+  background: rgba(255,255,255,.45);
+  border: 1px solid rgba(215,169,136,.25);
+  box-shadow: 0 18px 50px rgba(44,43,42,.08);
+}
+
+.love-line{
+  font-family: "Dancing Script", cursive;
+  font-size: 30px;
+  margin: 6px 0 6px;
+  color: rgba(44,43,42,.78);
+}
+
+.love-note{
+  font-family: "Dancing Script", cursive;
+  font-size: 30px;
+  margin: 0 0 6px;
+  color: rgba(44,43,42,.70);
+}
+
+.love-signoff{
+  font-family: "Dancing Script", cursive;
+  font-size: 30px;
+  margin: 0 0 10px;
+  color: rgba(44,43,42,.72);
+}
+
+/* mobile tweaks */
+@media (max-width: 520px){
+  .counter-kicker{ font-size: 22px; }
+  .love-line{ font-size: 20px; }
+  .love-note, .love-signoff{ font-size: 18px; }
+}
+
+/*===============================================================================================*/
+/* ===== Split timer blocks ===== */
+.time-grid{
+  width: min(900px, 96vw);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 12px auto 10px;
+}
+
+.time-box{
+  background: rgba(255,255,255,.50);
+  border: 1px solid rgba(215,169,136,.22);
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgba(44,43,42,.08);
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.time-num{
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(36px, 5.2vw, 74px);
+  line-height: 1;
+  color: rgba(44,43,42,.90);
+  letter-spacing: .06em;
+}
+
+.time-label{
+  margin-top: 8px;
+  font-family: "Dancing Script", cursive;
+  font-size: 18px;
+  color: rgba(44,43,42,.65);
+}
+
+/* Mobile: stack blocks 2 per row */
+@media (max-width: 640px){
+  .time-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Scroll reveal effect ===== */
+.reveal{
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 650ms ease, transform 650ms ease;
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =========================
+   Reveal on scroll
+========================= */
+.reveal-on-scroll{
+  width: 100%;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.reveal-on-scroll.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+
+
+/*==================PAGE 2 BODY-=============================*/
+/* =========================
+   Page-specific layout fixes
+   (put at bottom of style.css)
+========================= */
+/* =========================
+   GLOBAL LAYOUT (ONE PLACE)
+========================= */
+html, body{
+  height: 100%;
+  margin: 0;
+}
+
+body{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  position: relative;
+  overflow-x: hidden;
+
+  /* background */
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.6), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,200,220,.5), transparent 40%),
+    linear-gradient(135deg, #ffe6ea, #ffb3c6);
+  background-attachment: fixed;
+}
+
+/* Soft glow blobs (use ::before only, so ::after is reserved for flash) */
+body::before{
+  content:"";
+  position:fixed;
+  inset:auto;
+  width:520px;
+  height:520px;
+  border-radius:50%;
+  filter:blur(130px);
+  opacity:.35;
+  background:#ff9eb5;
+  top:-140px;
+  left:-180px;
+  animation: floatBg 8s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes floatBg{
+  0%{ transform:translateY(0px); }
+  100%{ transform:translateY(45px); }
+}
+
+/* Screen flash overlay uses ::after (no conflict now) */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 80, 100, 0);
+  pointer-events: none;
+  z-index: 9999;
+  transition: background 260ms ease;
+}
+
+body.flash::after{
+  background: rgba(255, 80, 100, 0.14);
+}
+
+/* PAGE 1 (no scroll, centered) */
+body.page1{ overflow: hidden; }
+body.page1 .wrap{
+  height: 100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 56px 16px 28px;
+}
+
+body.page2{
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+body.page2 .wrap{
+  min-height: 100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding: 56px 16px 28px;
+}
+
+
+/* Keep content above background blobs */
+.wrap, .stage, .envelopeShell{
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 480px){
+  /* Let the page scroll on small screens so the button is reachable */
+  body.page1{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Stop forcing a fixed height center that can push content off-screen */
+  body.page1 .wrap{
+    height: auto;
+    min-height: 100vh;
+    padding: 18px 12px 18px;
+  }
+
+  /* Reduce vertical spacing */
+  .stage{
+    gap: 12px;
+  }
+
+  /* Make envelope shorter so button stays visible */
+  .envelopeShell{
+    height: clamp(240px, 58vw, 320px);
+  }
+
+  /* Make the letter area scroll inside the card (instead of expanding the page) */
+  .letterWrap{
+    padding: 12px;
+  }
+
+  .letterCard{
+    padding: 16px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Keep button always tappable above any effects */
+  .actions{
+    position: relative;
+    z-index: 10001;
+    padding-bottom: 10px;
+  }
+}

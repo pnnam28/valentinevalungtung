@@ -1,0 +1,149 @@
+.game-card{
+  width: min(980px, 96vw);
+  margin: 0 auto;
+  padding: 22px;
+  border-radius: 28px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(215,169,136,.25);
+  box-shadow: 0 18px 50px rgba(44,43,42,.10);
+}
+
+.game-title{
+  margin: 6px 0 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  color: rgba(44,43,42,.90);
+  text-align:center;
+}
+
+.game-images{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 10px 0 14px;
+}
+
+.game-img{
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(215,169,136,.22);
+  background: rgba(255,255,255,.65);
+
+
+}
+.game-img img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+
+.img-placeholder{
+  font-size: 14px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(44,43,42,.55);
+}
+
+.game-status{
+  margin: 6px 0 16px;
+  text-align:center;
+  color: rgba(44,43,42,.70);
+}
+
+.game-actions{
+  position: relative;
+  display:flex;
+  justify-content:center;
+  gap: 14px;
+  align-items:center;
+}
+
+/* Make buttons stack with z-index */
+#yesBtn, #noBtn{
+  position: relative;
+  z-index: 2;
+  transition: transform .18s ease, width .18s ease, height .18s ease, z-index .18s ease, opacity .18s ease;
+}
+
+/* NO will go behind when shrinking */
+#noBtn{
+  z-index: 1;
+  transform-origin: center;
+}
+
+
+.round-indicator{
+  text-align:center;
+  margin: 14px 0 0;
+  color: rgba(44,43,42,.55);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+/* smooth resizing */
+#yesBtn, #noBtn{
+  transition: transform .18s ease;
+}
+
+@media (max-width: 768px){
+  .game-images{
+    grid-template-columns: 1fr;
+  }
+  .game-title{
+    font-size: 26px;
+  }
+}
+
+
+
+.final-letter{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  opacity: 0;
+  transform: scale(.92);
+  pointer-events: none;
+  transition: opacity 450ms ease, transform 450ms ease;
+  z-index: 9999;
+}
+
+.final-letter.show{
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.final-letter::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(255, 180, 200, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.final-letter-card{
+  position: relative;
+  z-index: 1;
+  width: min(760px, 92vw);
+  border-radius: 30px;
+  padding: 28px 24px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(215,169,136,.28);
+  box-shadow: 0 28px 70px rgba(44,43,42,.18);
+  text-align: center;
+  animation: letterFloat 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes letterFloat{
+  from{ transform: translateY(0); }
+  to{ transform: translateY(-8px); }
+}
+
+
