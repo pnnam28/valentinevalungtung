@@ -838,3 +838,96 @@ body.page2 .wrap{
     padding-bottom: 10px;
   }
 }
+
+
+/* =========================
+   Page 2: Bottom Love Letter
+========================= */
+
+.love-letter{
+  width: 100%;
+  display:flex;
+  justify-content:center;
+  margin: 38px 0 28px;
+}
+
+.love-letter-card{
+  width: min(860px, 96vw);
+  padding: 26px 22px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.60);
+  border: 1px solid rgba(215,169,136,.25);
+  box-shadow: 0 18px 50px rgba(44,43,42,.10);
+  text-align: center;
+  position: relative;
+  overflow:hidden;
+}
+
+/* soft decorative glow */
+.love-letter-card::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,180,200,.18), transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(255,230,200,.18), transparent 50%);
+  pointer-events:none;
+}
+
+.love-letter-small{
+  position: relative;
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(215,169,136,.95);
+}
+
+.love-letter-title{
+  position: relative;
+  margin: 0 0 12px;
+  font-family: "Dancing Script", cursive; /* sweet font */
+  font-size: clamp(34px, 4.6vw, 50px);
+  color: rgba(44,43,42,.90);
+  font-weight: 700;
+}
+
+.love-letter-body{
+  position: relative;
+  text-align: left;
+  margin: 0 auto;
+  width: min(680px, 92%);
+  color: rgba(44,43,42,.70);
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+.love-letter-body p{
+  margin: 0 0 12px;
+}
+
+.love-letter-sign{
+  margin-top: 14px;
+  text-align: left;
+}
+
+.love-letter-name{
+  font-family: "Great Vibes", cursive;
+  font-size: 28px;
+  color: rgba(44,43,42,.88);
+}
+
+/* mobile spacing */
+@media (max-width: 520px){
+  .love-letter-card{
+    padding: 22px 16px;
+    border-radius: 26px;
+  }
+  .love-letter-body{
+    font-size: 14px;
+    width: 96%;
+  }
+  .love-letter-name{
+    font-size: 26px;
+  }
+}

@@ -14,30 +14,30 @@
 
       <header class="page2-header">
         <h1 class="page2-title">Mini Game</h1>
-        <a class="btn" href="../pages/page2.html">Back</a>
+        <a class="btn" href="../pages/page2.html"> Quay lại </a>
       </header>
 
       <div class="game-card" id="gameCard">
-        <p class="game-title" id="questionText">Loading…</p>
+        <p class="game-title" id="questionText"> Chờ... đợi....</p>
 
         <div class="game-images">
           <div class="game-img" id="imgA">
-            <div class="img-placeholder">Image A</div>
+            <div class="img-placeholder"> A Nam </div>
           </div>
 
           <div class="game-img" id="imgB">
-            <div class="img-placeholder">Image B</div>
+            <div class="img-placeholder"> Thằng Khác </div>
           </div>
         </div>
 
         <p class="game-status" id="status">Choose wisely 😌</p>
 
         <div class="game-actions" id="actions">
-          <button class="btn" id="yesBtn" type="button">YES</button>
-          <button class="btn" id="noBtn" type="button">NO</button>
+          <button class="btn" id="yesBtn" type="button">A Nam</button>
+          <button class="btn" id="noBtn" type="button">Người còn lại</button>
         </div>
 
-        <p class="round-indicator" id="roundIndicator">Round ? / 3</p>
+        <p class="round-indicator" id="roundIndicator">Câu hỏi ? / 3</p>
       </div>
 
     </section>
@@ -45,14 +45,30 @@
     <!-- Final letter popup (hidden until game ends) -->
     <section class="final-letter" id="finalLetter" aria-hidden="true">
       <div class="final-letter-card">
-        <p class="final-letter-small">To my favorite person 💌</p>
-        <h2 class="final-letter-title">Happy Valentine’s Day</h2>
+        <p class="final-letter-small">Gửi Minh Châuuuu 💌</p>
+        <h2 class="final-letter-title">Hy vọng em sẽ vuiii </h2>
         <p class="final-letter-body">
-          I knew you would choose me ^^<br>
-          Happy Valentine, babe 💗
+          Hehe biết thế nào cũng chọn a Nam mà ^^<br>
+          Anh yêu em nhất, babe 💗
         </p>
       </div>
     </section>
+
+    <!-- Mascot (fixed bottom-left) -->
+    <div class="mascot" id="mascot" aria-hidden="false">
+      <div class="mascot-bubble" id="mascotBubble">
+        <p class="mascot-text" id="mascotText"> Anh tin em sẽ chọn đúng 😌💗</p>
+      </div>
+
+      <div class="mascot-sprite">
+        <!-- Use images later if you want -->
+        <img id="mascotImg" src="../assets/icon/chill.jpg" alt="Mascot">
+
+        <!-- Placeholder emoji mascot (works immediately) -->
+        <div class="mascot-emoji" id="mascotEmoji">🐶</div>
+      </div>
+    </div>
+
 
   </main>
 
