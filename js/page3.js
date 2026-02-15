@@ -72,9 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ---- Configure rounds (FIXED: removed trailing spaces + better default paths) ----
   // ⚠️ Use "assets/images/..." if page3.html sits next to the assets folder.
   const rounds = [
-    { question: "Question 1: A Nam và HTH ai đẹp trai hơn 😒", imgA: "../assets/images/R1A.jpg", imgB: "../assets/images/R1B.jpg" },
-    { question: "Question 2: Body t với Ngọc Thịnh, mi chọn ai 😡", imgA: "../assets/images/R2A.jpg", imgB: "../assets/images/R2B.png" },
-    { question: "Question 3: thích ăn mỡ hay ăn múi 👹👹", imgA: "../assets/images/R3A.jpg", imgB: "../assets/images/R3B.png" }
+    { question: "Question 1: A Nam và HTH ai đẹp trai hơn 😒", imgA: "../assets/images/R1A.jpg", imgB: "../assets/images/R1B.jpg"},
+    { question: "Question 2: Body t với Ngọc Thịnh, mi chọn ai 😡", imgA: "../assets/images/R2A.jpg", imgB: "../assets/images/R2B.png"},
+    { question: "Question 3: thích ăn mỡ hay ăn múi 👹👹", imgA: "../assets/images/R3A.jpg", imgB: "../assets/images/R3B.png"}
   ];
 
   let round = 0;
